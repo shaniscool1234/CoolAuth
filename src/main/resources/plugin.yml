@@ -1,0 +1,33 @@
+name: CoolAuth
+version: 2.0.4
+main: com.coolauth.CoolAuth
+api-version: 1.21
+authors: [Shans Fun Org]
+description: A secure authentication plugin with password recovery and BCrypt support.
+
+commands:
+  register:
+    description: Register an account
+    usage: /register <password> <confirm password>
+  login:
+    description: Login to your account
+    usage: /login <password>
+  changepassword:
+    description: Change your password
+    usage: /changepassword <old> <new> <confirm new>
+  passwordrecovery:
+    description: Request a password recovery
+    usage: /passwordrecovery
+    aliases: [pr]
+  coolauth:
+    description: Admin commands
+    permission: coolauth.admin
+    usage: /coolauth <reload|unregister|setpass|info|forcelogin|forceregister|banip|unbanip|approve|deny|lookup>
+
+permissions:
+  coolauth.admin:
+    description: Access to all admin commands
+    default: op
+  coolauth.recovery:
+    description: Access to password recovery
+    default: true
