@@ -1,1 +1,172 @@
+#  _____             _   _____       _   _     
+# /  __ \           | | |  _  |     | | | |    
+# | /  \/ ___   ___ | | | | | |_   _| |_| |__  
+# | |    / _ \ / _ \| | | | | | | | | __| '_ \ 
+# | \__/\ (_) | (_) | | \ \_/ / |_| | |_| | | |
+#  \____/\___/ \___/|_|  \___/ \__,_|\__|_| |_|
+#                                        v2.0.3
+# Configuration File
 
+storage:
+  type: YAML # YAML, SQLITE, MYSQL, MARIADB
+  host: "localhost"
+  port: 3306
+  database: "minecraft"
+  username: "root"
+  password: ""
+  table_prefix: "coolauth_"
+
+security:
+  encrypt_passwords: true
+  encryption_key: "ChangeMe12345678" # Must be 16 chars for TWE
+  encryption_type: "BCRYPT" # Options: "OWE" (SHA-256), "TWE" (AES), "BCRYPT"
+  bcrypt_rounds: 10 # 10-12 recommended, higher = slower but more secure
+  auth_timeout: 40 # Seconds to login before kick
+  max_login_attempts: 3 # Kicks after this many wrong passwords
+  session_timeout: 220 # Minutes. If 0, sessions are disabled.
+  banned_ips: []
+
+# Password strength requirements
+password:
+  enabled: true
+  min_length: 8
+  max_length: 32
+  require_uppercase: true
+  require_lowercase: true
+  require_numbers: true
+  require_special: false
+  special_characters: "!@#$%^&*()_+-=[]{}|;:,.<>?"
+
+# Password recovery system
+recovery:
+  enabled: false
+  discord_webhook: "https://discord.com/api/webhooks/YOUR_WEBHOOK_HERE"
+  cooldown: 3600 # Seconds between requests (1 hour)
+  code_expiry: 86400 # Seconds before recovery code expires (24 hours)
+  reasons:
+    - "I forgot my password"
+    - "My account was compromised"
+    - "I lost access to my account"
+    - "Other"
+  gui_title: "&8&lPassword Recovery"
+  embed_color: "#3498db"
+  embed_title: "🔐 Password Recovery Request"
+
+# Join screen settings
+join_screen:
+  # For new players (not registered)
+  register:
+    title: "&b&lWelcome!"
+    subtitle: "&7New here? Create an account below"
+  # For existing players (registered)
+  login:
+    title: "&a&lWelcome Back!"
+    subtitle: "&7Please login to continue"
+  # Action bar messages (shown repeatedly)
+  actionbar_register: "&e/register <password> <password>"
+  actionbar_login: "&e/login <password>"
+  # Detailed instructions sent in chat
+  send_chat_instructions: true
+
+messages:
+  prefix: "&b[CoolAuth] &7"
+  
+  # Detailed join instructions (sent in chat)
+  register_instructions:
+    - ""
+    - "&b&l━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    - "&f&l  Welcome to the server!"
+    - "&b&l━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    - ""
+    - "&7  You need to &aregister &7to play."
+    - ""
+    - "&f  Usage: &a/register &e<password> &e<password>"
+    - "&f  Example: &a/register &eMyPass123 &eMyPass123"
+    - ""
+    - "&7  Password requirements:"
+    - "&8  • &7Minimum &f%min% &7characters"
+    - "&8  • &7Maximum &f%max% &7characters"
+    - "&8  • &7Must contain: &f%requirements%"
+    - ""
+    - "&b&l━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    - ""
+  
+  login_instructions:
+    - ""
+    - "&a&l━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    - "&f&l  Welcome back!"
+    - "&a&l━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    - ""
+    - "&7  Please &alogin &7to continue playing."
+    - ""
+    - "&f  Usage: &a/login &e<password>"
+    - "&f  Example: &a/login &eMyPass123"
+    - ""
+    - "&7  Forgot your password?"
+    - "&7  Use &e/passwordrecovery &7or &e/pr"
+    - ""
+    - "&a&l━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    - ""
+  
+  # Success messages
+  success: "&aSuccessfully authenticated! Welcome!"
+  session_restored: "&aSession restored. Welcome back!"
+  pass_changed: "&aPassword changed successfully."
+  
+  # Usage messages (short versions for errors)
+  register_usage: "&cUsage: &f/register <password> <confirm password>"
+  register_example: "&7Example: &f/register MyPass123 MyPass123"
+  login_usage: "&cUsage: &f/login <password>"
+  login_example: "&7Example: &f/login MyPass123"
+  changepass_usage: "&cUsage: &f/changepassword <old> <new> <confirm new>"
+  changepass_example: "&7Example: &f/changepassword OldPass123 NewPass456 NewPass456"
+  admin_usage: "&cUsage: /coolauth <reload|unregister|setpass|info|forcelogin|forceregister|banip|unbanip|approve|deny|lookup>"
+  
+  # Error messages
+  already_registered: "&cYou are already registered! Use &f/login &cto authenticate."
+  not_registered: "&cYou are not registered! Use &f/register <password> <password> &cto create an account."
+  already_logged_in: "&cYou are already logged in!"
+  wrong_password: "&cIncorrect password! Please try again."
+  passwords_dont_match: "&cPasswords do not match! Both passwords must be the same."
+  max_attempts: "&cToo many failed login attempts. Please reconnect."
+  kick_timeout: "&cAuthentication timed out. Please reconnect and try again."
+  kick_banned: "&cYour IP is banned from this server."
+  
+  # Password strength messages
+  password_too_short: "&cPassword must be at least &e%min% &ccharacters!"
+  password_too_long: "&cPassword cannot exceed &e%max% &ccharacters!"
+  password_needs_uppercase: "&cPassword must contain at least one uppercase letter! &7(A-Z)"
+  password_needs_lowercase: "&cPassword must contain at least one lowercase letter! &7(a-z)"
+  password_needs_number: "&cPassword must contain at least one number! &7(0-9)"
+  password_needs_special: "&cPassword must contain at least one special character! &7(%chars%)"
+  
+  # Recovery messages
+  recovery_disabled: "&cPassword recovery is disabled on this server."
+  recovery_not_registered: "&cYou must be registered to use password recovery."
+  recovery_already_logged_in: "&cYou are already logged in. Use &f/changepassword &cinstead."
+  recovery_cooldown: "&cPlease wait &e%time% &cbefore submitting another request."
+  recovery_submitted: "&aYour recovery request has been submitted! &7(Code: &e%code%&7)"
+  recovery_enter_details: "&eType your detailed reason in chat &7(or type &ccancel&7)&e:"
+  recovery_cancelled: "&cRecovery request cancelled."
+  recovery_approved: "&aYour password recovery was approved! Please use &e/register &ato create a new password."
+  recovery_denied: "&cYour password recovery request was denied."
+  recovery_no_pending: "&cYou have no pending recovery request."
+  
+  # Admin messages
+  admin_success: "&aOperation successful."
+  admin_fail: "&cPlayer not found or operation failed."
+  admin_reloaded: "&aConfig reloaded & storage reconnected."
+  admin_player_info: "&aPlayer Info:"
+  admin_ip_banned: "&aIP &e%ip% &ahas been banned."
+  admin_ip_unbanned: "&aIP &e%ip% &ahas been unbanned."
+  admin_ip_already_banned: "&cIP &e%ip% &cis already banned."
+  admin_ip_not_banned: "&cIP &e%ip% &cis not banned."
+  admin_force_login: "&aForce logged in &e%player%&a."
+  admin_force_register: "&aForce registered &e%player%&a."
+  admin_already_registered: "&cPlayer &e%player% &cis already registered."
+  admin_recovery_approved: "&aRecovery request &e%code% &aapproved. Player unregistered."
+  admin_recovery_denied: "&aRecovery request &e%code% &adenied."
+  admin_recovery_not_found: "&cRecovery request with code &e%code% &cnot found."
+  admin_lookup_header: "&aAccounts from IP &e%ip%&a:"
+  admin_lookup_entry: "&7- &e%player% &7(Registered)"
+  admin_lookup_none: "&cNo accounts found from IP &e%ip%&c."
